@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Dispositivo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="96x96"
+          href="{{ url_for('static', filename='favicon-96x96.png') }}">
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="manifest"
+          href="{{ url_for('static', filename='site.webmanifest') }}">
+
+</head>
+<body>
+
+<div class="page-container">
+
+    <div class="header">
+        <h1>➕ Novo Dispositivo</h1>
+        <p class="subtitle">Cadastre um novo dispositivo IoT no sistema</p>
+    </div>
+
+    <div class="top-actions">
+        <a href="{{ url_for('dispositivos.home') }}" class="btn-secondary">
+            ← Voltar para a página principal
+        </a>
+    </div>
+
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="alerts">
+          {% for category, message in messages %}
+            <div class="alert {{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" class="form-card">
+
+        <div class="input-group">
+            <label>Apartamento</label>
+            <input name="apartamento"
+                placeholder="Ex: 101"
+                value="{{ dados.apartamento if dados else '' }}"
+                required>
+        </div>
+
+        <div class="input-group">
+            <label>Device ID</label>
+            <input name="device_id"
+                placeholder="ID do dispositivo"
+                value="{{ dados.device_id if dados else '' }}"
+                required>
+        </div>
+
+        <div class="input-group">
+            <label>Local Key</label>
+            <input name="local_key"
+                placeholder="Chave local"
+                value="{{ dados.local_key if dados else '' }}"
+                required>
+        </div>
+
+        <div class="input-group">
+            <label>IP</label>
+            <input name="ip"
+                placeholder="192.168.0.50"
+                value="{{ dados.ip if dados else '' }}"
+                required>
+        </div>
+
+        <div class="input-group">
+            <label>Versão</label>
+            <input name="version"
+                placeholder="3.3"
+                value="{{ dados.version if dados else '' }}"
+                required>
+        </div>
+
+        <button class="btn-primary" type="submit">
+            💾 Salvar Dispositivo
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

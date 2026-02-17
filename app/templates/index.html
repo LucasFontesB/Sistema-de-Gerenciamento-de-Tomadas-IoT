@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Controle de Energia - Hotel</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="96x96"
+          href="{{ url_for('static', filename='favicon-96x96.png') }}">
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="manifest"
+          href="{{ url_for('static', filename='site.webmanifest') }}">
+</head>
+
+<body>
+
+<div class="header">
+    <h1>⚡ Controle de Energia</h1>
+    <p>Monitoramento inteligente dos apartamentos</p>
+</div>
+
+<a href="/adicionar">
+    <button>➕ Adicionar Dispositivo</button>
+</a>
+
+<br><br>
+<div class="cards-container">
+    {% for d in dispositivos %}
+        <div id="card-{{ d.id }}"
+             class="card"
+             ondblclick="window.location='{{ url_for('dispositivos.editar', id=d.id) }}'">
+
+            <h3>Apto {{ d.apartamento }}</h3>
+
+            <div id="status-{{ d.id }}" class="status-badge">
+                <div class="dot inativo"></div>
+                <span>Carregando...</span>
+            </div>
+
+            <div class="card-actions">
+                <button id="btn-ligar-{{ d.id }}"
+                        class="btn-ligar"
+                        onclick="ligar({{ d.id }})">
+                    Ligar
+                </button>
+
+                <button id="btn-desligar-{{ d.id }}"
+                        class="btn-desligar"
+                        onclick="desligar({{ d.id }})">
+                    Desligar
+                </button>
+            </div>
+
+            <div class="card-admin">
+                <a href="{{ url_for('dispositivos.editar', id=d.id) }}"
+                   class="btn-secondary">
+                    ✏ Editar
+                </a>
+
+                <a href="{{ url_for('dispositivos.deletar', id=d.id) }}"
+                   class="btn-delete"
+                   onclick="return confirm('Tem certeza que deseja excluir?')">
+                   🗑 Excluir
+                </a>
+            </div>
+
+        </div>
+    {% endfor %}
+</div>
+
+
+<script>
+
+function aplicarStatusNoCard(id, status) {
+    let container = document.getElementById("status-" + id);
+    let btnLigar = document.getElementById("btn-ligar-" + id);
+    let btnDesligar = document.getElementById("btn-desligar-" + id);
+
+    if (!container) return;
+
+    let dot = container.querySelector(".dot");
+    let text = container.querySelector("span");
+
+    dot.className = "dot " + status;
+
+    if (status === "ligado") {
+        text.innerText = "Ligado";
+        btnLigar.style.display = "none";
+        btnDesligar.style.display = "inline-block";
+    }
+    else if (status === "desligado") {
+        text.innerText = "Desligado";
+        btnLigar.style.display = "inline-block";
+        btnDesligar.style.display = "none";
+    }
+    else {
+        text.innerText = "Inativo";
+        btnLigar.style.display = "none";
+        btnDesligar.style.display = "none";
+    }
+}
+
+function atualizarTodos() {
+    fetch("/status_geral")
+        .then(response => response.json())
+        .then(data => {
+            for (let id in data) {
+                aplicarStatusNoCard(id, data[id]);
+            }
+        })
+        .catch(err => console.error("Erro ao atualizar status:", err));
+}
+
+function ligar(id) {
+    fetch("/ligar/" + id)
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                aplicarStatusNoCard(id, data.status);
+            }
+        });
+}
+
+function desligar(id) {
+    fetch("/desligar/" + id)
+        .then(response => response.json())
+        .then(data => {
+            if (data.ok) {
+                aplicarStatusNoCard(id, data.status);
+            }
+        });
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    atualizarTodos();
+    setInterval(atualizarTodos, 5000);
+});
+
+</script>
+
+</body>
+</html>

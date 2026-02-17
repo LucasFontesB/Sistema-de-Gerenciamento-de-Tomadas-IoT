@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Dispositivo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="96x96"
+          href="{{ url_for('static', filename='favicon-96x96.png') }}">
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="manifest"
+          href="{{ url_for('static', filename='site.webmanifest') }}">
+</head>
+<body>
+
+<div class="page-container">
+
+    <div class="header">
+        <h1>✏ Editar Dispositivo</h1>
+        <p class="subtitle">Atualize as informações do dispositivo</p>
+    </div>
+
+    <div class="top-actions">
+        <a href="{{ url_for('dispositivos.home') }}" class="btn-secondary">
+            ← Voltar para a página principal
+        </a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="alerts">
+          {% for category, message in messages %}
+            <div class="alert {{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" class="form-card">
+
+        <div class="input-group">
+            <label>Apartamento</label>
+            <input name="apartamento"
+                   value="{{ dispositivo.apartamento }}"
+                   required>
+        </div>
+
+        <div class="input-group">
+            <label>Device ID</label>
+            <input name="device_id"
+                   value="{{ dispositivo.device_id }}"
+                   required>
+        </div>
+
+        <div class="input-group">
+            <label>Local Key</label>
+            <input name="local_key"
+                   value="{{ dispositivo.local_key }}"
+                   required>
+        </div>
+
+        <div class="input-group">
+            <label>IP</label>
+            <input name="ip"
+                   value="{{ dispositivo.ip }}"
+                   required>
+        </div>
+
+        <div class="input-group">
+            <label>Versão</label>
+            <input name="version"
+                   value="{{ dispositivo.version }}"
+                   required>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn-primary" type="submit">
+                💾 Salvar Alterações
+            </button>
+
+            <a href="{{ url_for('dispositivos.deletar', id=dispositivo.id) }}"
+               class="btn-delete"
+               onclick="return confirm('Tem certeza que deseja excluir este dispositivo?')">
+               🗑 Excluir
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>
