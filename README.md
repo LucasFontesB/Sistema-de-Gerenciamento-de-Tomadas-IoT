@@ -77,7 +77,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-4️⃣ Criar arquivo .env
+4️⃣ Criar arquivo .env (Na raiz do projeto e não dentro da pasta app)
 
 ```bash
 SECRET_KEY="sua_chave_super_secreta" (Recomendo uma senha forte gerada com letras maiusculas, minusculas, números e simbolos)
