@@ -26,13 +26,11 @@ def adicionar():
 
         novo_id = inserir_dispositivo(request.form)
 
-        d = buscar_por_id(novo_id)
-
         socket_timeout = current_app.config["SOCKET_TIMEOUT"]
 
         threading.Thread(
             target=monitorar,
-            args=(d, socket_timeout),
+            args=(current_app._get_current_object(), novo_id, socket_timeout),
             daemon=True
         ).start()
 

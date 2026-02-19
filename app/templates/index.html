@@ -7,7 +7,6 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 
-    <!-- Favicon -->
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="icon" type="image/png" sizes="96x96"
           href="{{ url_for('static', filename='favicon-96x96.png') }}">
@@ -24,9 +23,21 @@
     <p>Monitoramento inteligente dos apartamentos</p>
 </div>
 
-<a href="/adicionar">
-    <button>➕ Adicionar Dispositivo</button>
-</a>
+<div style="display: flex; gap: 15px; justify-content: center; margin-bottom: 25px;">
+
+    <a href="{{ url_for('dispositivos.adicionar') }}">
+        <button class="btn-primary">
+            ➕ Adicionar Dispositivo
+        </button>
+    </a>
+
+    <a href="{{ url_for('energia.relatorio_energia') }}">
+        <button class="btn-primary" style="background: #3498db;">
+            📊 Relatórios de Energia
+        </button>
+    </a>
+
+</div>
 
 <br><br>
 <div class="cards-container">

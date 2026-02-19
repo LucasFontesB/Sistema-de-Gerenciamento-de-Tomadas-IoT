@@ -5,6 +5,15 @@ body {
     padding: 30px;
 }
 
+.btn-secondary-blue {
+    background: #3498db;
+    color: white;
+}
+
+.btn-secondary-blue:hover {
+    background: #2980b9;
+}
+
 .card-actions {
     display: flex;
     gap: 8px;

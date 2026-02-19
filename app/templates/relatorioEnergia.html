@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Energia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="96x96"
+          href="{{ url_for('static', filename='favicon-96x96.png') }}">
+    <link rel="apple-touch-icon"
+          href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="manifest"
+          href="{{ url_for('static', filename='site.webmanifest') }}">
+
+</head>
+<body>
+
+<div class="page-container">
+
+    <div class="header">
+        <h1>⚡ Relatório Diário de Energia</h1>
+        <p class="subtitle">Consumo energético por apartamento (hoje)</p>
+    </div>
+
+    <div class="form-card" style="width: 600px;">
+
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="border-bottom: 2px solid #ddd;">
+                    <th style="text-align: left; padding: 10px;">Apartamento</th>
+                    <th style="text-align: right; padding: 10px;">Consumo (kWh)</th>
+                    <th style="text-align: right; padding: 10px;">Custo (R$)</th>
+                </tr>
+            </thead>
+            <tbody>
+    {% for item in dados %}
+        <tr style="border-bottom: 1px solid #eee;">
+            <td style="padding: 10px;">
+                {{ item.apartamento }}
+            </td>
+            <td style="padding: 10px; text-align: right;">
+                {{ "%.5f"|format(item.kwh) }}
+            </td>
+            <td style="padding: 10px; text-align: right;">
+                {{ "%.2f"|format(item.custo) }}
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
+
+<tfoot>
+    <tr style="border-top: 2px solid #ddd; font-weight: bold;">
+        <td style="padding: 10px;">Total do Hotel</td>
+        <td style="padding: 10px; text-align: right;">
+            {{ "%.5f"|format(total_kwh) }}
+        </td>
+        <td style="padding: 10px; text-align: right;">
+            {{ "%.2f"|format(total_custo) }}
+        </td>
+    </tr>
+</tfoot>
+
+        </table>
+
+    </div>
+
+    <br>
+
+    <a href="{{ url_for('dispositivos.home') }}" class="btn-primary">
+        ⬅ Voltar
+    </a>
+
+</div>
+
+</body>
+</html>

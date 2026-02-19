@@ -2,6 +2,7 @@ from flask import Flask
 from app.config import Config
 from app.routes.dispositivos_routes import dispositivos_bp
 from app.database import init_db
+from app.routes.energia_routes import energia_bp
 
 def create_app():
     app = Flask(__name__)
@@ -11,5 +12,6 @@ def create_app():
         init_db()
 
     app.register_blueprint(dispositivos_bp)
+    app.register_blueprint(energia_bp)
 
     return app

@@ -57,10 +57,10 @@ def atualizar_dispositivo(id, dados):
 def deletar_dispositivo(id):
     with sqlite3.connect(current_app.config["DB_PATH"]) as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT id FROM dispositivos WHERE id = ?", (id,))
-        if cursor.fetchone() is None:
-            return False
 
+        cursor.execute("DELETE FROM consumo WHERE dispositivo_id = ?", (id,))
         cursor.execute("DELETE FROM dispositivos WHERE id = ?", (id,))
+
         conn.commit()
-        return True
+
+    return True
